@@ -24,9 +24,9 @@ public class GetClientsUseCase implements GetClientsPort {
     return Try.of(() -> clientsRepositoryPort.getClientsBy(command.getName(), command.getLastname(), command.getEmail(), command.getCity()))
         .filter(establishments -> !CollectionUtils.isEmpty(establishments))
         .map(GetClientResponseMapper.INSTANCE::toGetClientResponseList)
-        .map(response -> GetClientsResponse.builder().build())
+        .map(response -> GetClientsResponse.builder().clients(response).build())
         .onSuccess(response -> log.debug("Query has been successful: [{}]", response))
-        .onFailure(logAndThrows(log, "Error querying establishments data by criteria: [{}]", NOT_FOUND))
+        .onFailure(logAndThrows(log, "Error querying clients data by criteria: [{}]", NOT_FOUND))
         .get();
   }
 }

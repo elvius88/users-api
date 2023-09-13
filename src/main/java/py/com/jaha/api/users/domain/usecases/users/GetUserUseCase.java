@@ -25,7 +25,7 @@ public class GetUserUseCase implements GetUserPort {
         .filter(Objects::nonNull)
         .map(GetUserResponseMapper.INSTANCE::toGetUserResponse)
         .onSuccess(response -> log.debug("Query has been successful: [{}]", response))
-        .onFailure(logAndThrows(log, "Error querying establishment data by branch: [{}]", NOT_FOUND))
+        .onFailure(logAndThrows(log, "Error querying user data by branch: [{}]", NOT_FOUND))
         .get();
   }
 }

@@ -25,7 +25,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class UsersApplication {
 
     public static void main(String[] args) {
-
         try {
             String hostAddress = InetAddress.getLocalHost().getHostAddress();
             System.setProperty(HOST_IP_NAME, hostAddress);
@@ -43,7 +42,7 @@ public class UsersApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void doAfterStartup() {
-        log.info("Establishments API has already started");
+        log.info("Users API has already started");
     }
 
 }

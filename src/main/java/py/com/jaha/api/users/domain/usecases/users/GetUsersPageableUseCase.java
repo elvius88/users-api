@@ -26,7 +26,7 @@ public class GetUsersPageableUseCase implements GetUsersPageablePort {
         .filter(userPage -> !CollectionUtils.isEmpty(userPage.getContent()))
         .map(GetUserResponseMapper.INSTANCE::toGetUsersPageableResponse)
         .onSuccess(response -> log.debug("Query has been successful: [{}]", response))
-        .onFailure(logAndThrows(log, "Error querying establishment data: [{}]", NOT_FOUND))
+        .onFailure(logAndThrows(log, "Error querying user data: [{}]", NOT_FOUND))
         .get();
   }
 

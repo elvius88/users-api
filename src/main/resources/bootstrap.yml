@@ -18,7 +18,7 @@ spring:
         maxInterval: 10000
         max-attempts: 30
         multiplier: 2
-      label: ${CONFIG_SERVER_BRANCH:master}
+      label: ${CONFIG_SERVER_BRANCH:main}
 
 
 ---

@@ -41,17 +41,6 @@ springdoc:
   api-docs:
     path: /openapi
 
-feign:
-  cachesApi:
-    name: cachesApi
-    path: caches/v0
-  authApi:
-    name: authApi
-    path: /v0/user
-  auditApi:
-    name: transversal-backofficeApi
-    path: /audits/v1
-
 management:
   endpoints:
     web:

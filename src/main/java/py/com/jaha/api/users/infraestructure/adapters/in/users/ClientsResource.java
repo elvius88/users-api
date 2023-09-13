@@ -85,7 +85,7 @@ public class ClientsResource {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))) })
     @Filterable
-    @GetMapping("/clients/search")
+    @GetMapping("/clients-search")
     @ResponseStatus(HttpStatus.OK)
     public ApiPageableResponse<GetClientPageableResponse> getClientsBy(@RequestParam(required = false) String name,
                                                                        @RequestParam(required = false) String lastname,

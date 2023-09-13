@@ -45,14 +45,14 @@ public class UsersResource {
     private final GetUsersPageablePort getUsersPageableUseCase;
     private final PageableComponent pageableComponent;
 
-    @Operation(summary = "User", description = "Get establishment data by ID")
+    @Operation(summary = "User", description = "Get user data by ID")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetUserResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))) })
     @Filterable
-    @GetMapping("/establishments/{id}")
+    @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<GetUserResponse> getUser(@PathVariable String id) {
         return ApiResponse.of(
@@ -60,31 +60,31 @@ public class UsersResource {
                 UsersCommandMapper.INSTANCE.toCommand(id, null, null, null, null, null, null)));
     }
 
-    @Operation(summary = "Users", description = "Get establishments data by parameters filters")
+    @Operation(summary = "Users", description = "Get users data by parameters filters")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetUsersResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))) })
     @Filterable
-    @GetMapping("/establishments")
+    @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<GetUsersResponse> getUsers(@RequestParam(required = false) String name,
                                                   @RequestParam(name = "client_id", required = false) String clientId,
-                                                  @RequestParam(name = "establishment_Id", required = false) String establishmentId) {
+                                                  @RequestParam(name = "user_Id", required = false) String userId) {
         return ApiResponse.of(
             getUsersUseCase.execute(
-                UsersCommandMapper.INSTANCE.toCommand(null, name, clientId, establishmentId, null, null, null)));
+                UsersCommandMapper.INSTANCE.toCommand(null, name, clientId, userId, null, null, null)));
     }
 
-    @Operation(summary = "Users", description = "Get establishments data by parameters filters")
+    @Operation(summary = "Users", description = "Get users data by parameters filters")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetUserPageableResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))) })
     @Filterable
-    @GetMapping("/establishments/nearby")
+    @GetMapping("/users-search")
     @ResponseStatus(HttpStatus.OK)
     public ApiPageableResponse<GetUserPageableResponse> getUsersNearby(@RequestParam(required = false) String latitude,
                                                                                 @RequestParam(required = false) String longitude,

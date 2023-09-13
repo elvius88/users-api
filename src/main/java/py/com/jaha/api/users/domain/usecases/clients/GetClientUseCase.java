@@ -25,7 +25,7 @@ public class GetClientUseCase implements GetClientPort {
         .filter(Objects::nonNull)
         .map(GetClientResponseMapper.INSTANCE::toGetClientResponse)
         .onSuccess(response -> log.debug("Query has been successful: [{}]", response))
-        .onFailure(logAndThrows(log, "Error querying establishment data by branch: [{}]", NOT_FOUND))
+        .onFailure(logAndThrows(log, "Error querying client data by branch: [{}]", NOT_FOUND))
         .get();
   }
 }

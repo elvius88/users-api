@@ -43,5 +43,5 @@ public class Cities implements Serializable {
   private States state;
 
   @OneToMany(mappedBy="city")
-  private List<Cities> cities;
+  private List<Clients> clients;
 }

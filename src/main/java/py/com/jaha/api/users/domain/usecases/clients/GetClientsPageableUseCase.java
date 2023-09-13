@@ -26,7 +26,7 @@ public class GetClientsPageableUseCase implements GetClientsPageablePort {
         .filter(clientPage -> !CollectionUtils.isEmpty(clientPage.getContent()))
         .map(GetClientResponseMapper.INSTANCE::toGetClientsPageableResponse)
         .onSuccess(response -> log.debug("Query has been successful: [{}]", response))
-        .onFailure(logAndThrows(log, "Error querying establishment data: [{}]", NOT_FOUND))
+        .onFailure(logAndThrows(log, "Error querying client data: [{}]", NOT_FOUND))
         .get();
   }
 

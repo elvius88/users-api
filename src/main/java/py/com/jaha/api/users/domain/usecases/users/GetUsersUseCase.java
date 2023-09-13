@@ -24,9 +24,9 @@ public class GetUsersUseCase implements GetUsersPort {
     return Try.of(() -> usersRepositoryPort.getUsersBy(command.getName(), command.getCategoryId(), command.getEstablishmentId()))
         .filter(establishments -> !CollectionUtils.isEmpty(establishments))
         .map(GetUserResponseMapper.INSTANCE::toGetUserResponseList)
-        .map(response -> GetUsersResponse.builder().build())
+        .map(response -> GetUsersResponse.builder().users(response).build())
         .onSuccess(response -> log.debug("Query has been successful: [{}]", response))
-        .onFailure(logAndThrows(log, "Error querying establishments data by criteria: [{}]", NOT_FOUND))
+        .onFailure(logAndThrows(log, "Error querying users data by criteria: [{}]", NOT_FOUND))
         .get();
   }
 }
