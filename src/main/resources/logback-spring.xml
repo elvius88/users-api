@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    ​
+    <springProperty scope="context" name="apiName" source="spring.application.name"/>
+
+    <!-- logging into the folder of the project -->
+    <property name="BASE_DIR_LOGS" value="logs"/>
+    <property name="BASE_DIR_HIST" value="${BASE_DIR_LOGS}/hist"/>
+    <property name="LOG_FILE" value="${BASE_DIR_LOGS}/${apiName}"/>
+    <property name="JSON_FILE" value="${BASE_DIR_LOGS}/jsonLogs/${apiName}"/>
+    <property name="JSON_DIR_HIST" value="${BASE_DIR_LOGS}/jsonLogs/hist"/>
+
+    <!-- same as default spring sleuth pattern-->
+    <property name="LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr([%X{codCliente}]){magenta} %clr([%X{codEmpresa}]){magenta} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <springProfile name="!(dev | ${LOG_PROFILE})">
+        <!-- Appender to log to console -->
+        <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <!-- Minimum logging level to be presented in the console logs-->
+                <level>DEBUG</level>
+            </filter>
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp/>
+                    <mdc /> <!-- MDC variables on the Thread will be written as JSON fields -->
+                    <context /> <!--Outputs entries from logback's context -->
+                    <version /> <!-- Logstash json format version, the @version field in the output -->
+                    <logLevel />
+                    <loggerName />
+                    <threadName />
+                    <message />
+                    <logstashMarkers /><!-- Useful so we can add extra information for specific log lines as Markers-->
+                    <arguments/> <!--or through StructuredArguments-->
+                    <stackTrace />
+                </providers>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="(dev | ${LOG_PROFILE})">
+        <!-- Appender to log to console -->
+        <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <!-- Minimum logging level to be presented in the console logs-->
+                <level>DEBUG</level>
+            </filter>
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <!-- Appender to log to file -->​
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>${BASE_DIR_HIST}/%d{yyyy-MM, aux}/${apiName}-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    ​
+    <!-- Appender to log to file in a JSON format -->
+    <appender name="logstash" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${JSON_FILE}.json</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${JSON_DIR_HIST}/%d{yyyy-MM, aux}/${apiName}-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <mdc /> <!-- MDC variables on the Thread will be written as JSON fields -->
+                <context /> <!--Outputs entries from logback's context -->
+                <version /> <!-- Logstash json format version, the @version field in the output -->
+                <logLevel />
+                <loggerName />
+                <threadName />
+                <message />
+                <logstashMarkers /><!-- Useful so we can add extra information for specific log lines as Markers-->
+                <arguments/> <!--or through StructuredArguments-->
+                <stackTrace />
+            </providers>
+        </encoder>
+    </appender>
+    ​
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="logstash"/>
+        <appender-ref ref="file"/>
+    </root>
+</configuration>

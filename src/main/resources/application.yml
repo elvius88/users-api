@@ -1,0 +1,59 @@
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+  mvc:
+    throw-exception-if-no-handler-found: true
+  jpa:
+    database: default
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: true
+  max-http-header-size: ${MAX_HEADER_SIZE:15KB}
+
+eureka:
+  instance:
+    preferIpAddress: true
+    ip-address: ${DOCKER_HOST_IP:${hostIp}}
+    lease-renewal-interval-in-seconds: 30 #cada 30 segundos enviara una pulsacion
+    lease-expiration-duration-in-seconds: 90 #define el tiempo que el server esperara sin pulsacion
+    instance-id: ${spring.application.name}:${random.value}
+    appname: ${STAGE}-${spring.application.name}
+    virtual-host-name: ${eureka.instance.appname}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registry-fetch-interval-seconds: 15  #cada 15 hara refresh de las instancias del discovery
+
+springdoc:
+  title: @project.name@
+  description: @project.name@
+  version: @project.version@
+  api-docs:
+    path: /openapi
+
+feign:
+  cachesApi:
+    name: cachesApi
+    path: caches/v0
+  authApi:
+    name: authApi
+    path: /v0/user
+  auditApi:
+    name: transversal-backofficeApi
+    path: /audits/v1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

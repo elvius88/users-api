@@ -1,0 +1,55 @@
+spring:
+  profiles:
+    active: test
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+  application:
+    admin:
+      enabled: true
+  cloud:
+    config:
+      enabled: false
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+    platform: h2
+    # initialization-mode: embedded
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: true
+
+logging:
+  level:
+    root: info
+    py.com: debug
+    org.springframework.web: info
+    com.netflix: info
+  file: general.log
+
+eureka:
+  client:
+    enabled: false
+    registerWithEureka: false
+
+api:
+  errorMap:
+    active: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

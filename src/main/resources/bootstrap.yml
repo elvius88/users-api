@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:0} #hay que asignarle
+
+spring:
+  application:
+    name: ${USERS_NAME:usersApi}
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: conf-server #le indicamos que vaya al discovery para traer el config server que tiene el id conf-server
+      retry:
+        initial-interval: 1000
+        maxInterval: 10000
+        max-attempts: 30
+        multiplier: 2
+      label: ${CONFIG_SERVER_BRANCH:master}
+
+
+---
+spring:
+  profiles: "!dev"
+
+encrypt:
+  key:
+  key-store:
+    location: file:${CONFIG_SERVER_KEY_PATH:/run/secrets/config-server.jks}
+    alias: config-server-key
+    password: s3cr3t-k3y-st0r3 #no tiene mucha importancia, ya que con el key se realiza la enc
