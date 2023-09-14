@@ -19,7 +19,7 @@
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <docker.registry>core.harbor.work.py.igrupobbva</docker.registry>
+        <docker.registry>development.jaha.com.py</docker.registry>
         <docker.image.name>${project.artifactId}</docker.image.name>
         <!--suppress UnresolvedMavenProperty -->
         <docker.image.tag>v${project.version}-${git.commit.id.abbrev}-${maven.build.timestamp}</docker.image.tag>
